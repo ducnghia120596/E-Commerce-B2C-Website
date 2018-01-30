@@ -1,0 +1,42 @@
+﻿@using WebSiteBanHang.Models;
+@model List<loiNhuanMV>
+@{
+    ViewBag.Title = "DoanhThuAllMerchant";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+
+<br />
+<br />
+<h2 style="font-weight:bold">Doanh thu của Merchant</h2>
+<br />
+<div class="col-md-12 product1">
+    <br />
+    <br />
+    <table class="table table-bordered table-hover">
+        <thead style="background-color:cadetblue">
+            <tr class="not_mapped_style" style="text-align:center">
+                <th>Người bán</th>
+                <th>Số lượng</th>
+                <th>Tổng tiền</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+            {
+            <tbody>
+                <tr>
+                    <td>@item.NguoiBan</td>
+                    <td>@item.TongSoLuong</td>
+                    <td>@item.TongTien.Value.ToString("#,##") VNĐ</td>
+                    <td>@Html.ActionLink("Xem chi tiết","XemChiTietMerchant",new { @name = item.NguoiBan})</td>
+                </tr>
+            </tbody>
+        }
+        <thead>
+            <tr class="not_mapped_style" style="text-align:center">
+                <th>Tổng</th>
+                <th>@ViewBag.TongSL</th>
+                <th>@ViewBag.TongDoanhThu.ToString("#,##") VNĐ</th>
+            </tr>
+        </thead>
+    </table>
+</div>

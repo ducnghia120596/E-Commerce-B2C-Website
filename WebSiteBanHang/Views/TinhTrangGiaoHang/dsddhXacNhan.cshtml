@@ -1,0 +1,69 @@
+﻿@using WebSiteBanHang.Models;
+@model IEnumerable<DonDatHangMerchant>
+@{
+    ViewBag.Title = "dsddhXacNhan";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+
+<br />
+<br />
+<h2 style="font-weight:bold">Đơn đặt hàng và tình trạng giao hàng</h2>
+<br />
+<br />
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="@Url.Action("dsddhAllMerchant","TinhTrangGiaoHang")">Tất cả</a></li>
+    <li role="presentation" class="active"><a href="@Url.Action("dsddhXacNhan","TinhTrangGiaoHang")">Xác nhận</a></li>
+    <li role="presentation"><a href="@Url.Action("dsddhGiaoHang","TinhTrangGiaoHang")">Giao Hàng</a></li>
+    <li role="presentation"><a href="@Url.Action("dsddhThanhCong","TinhTrangGiaoHang")">Thành công</a></li>
+    <li role="presentation"><a href="@Url.Action("dsddhHuy","TinhTrangGiaoHang")">Hủy</a></li>
+</ul>
+<br />
+
+
+<table class="table table-bordered table-hover" style="background-color:white">
+    <thead style="background-color:cadetblue">
+        <tr>
+            <th>Mã ĐH</th>
+            <th>Số</th>
+            <th>Tên khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Người bán</th>
+            @*<th>Tình trạng</th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDDH)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDDHMerchant)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KhachHang.TenKH)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayDat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThanhVien.TaiKhoan)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.TrangThaiGiaoHang.TenTrangThai)
+                </td>*@
+                <td>
+                    @Html.ActionLink("Xem chi tiết", "dsddhDuyetDonHang", new { @id = item.MaDDHMerchant }, new { @target = "_blank" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: cadetblue;
+}
+</style>

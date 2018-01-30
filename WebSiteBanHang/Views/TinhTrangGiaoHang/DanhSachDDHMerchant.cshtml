@@ -1,0 +1,59 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.DonDatHangMerchant>
+
+@{
+    ViewBag.Title = "DanhSachDDHMerchant";
+    Layout = "~/Views/Layout/MerchantLayout.cshtml";
+}
+
+<h2>Danh sách đơn đặt hàng</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Mã HĐ
+        </th>
+        <th>
+            Số
+        </th>
+        <th>
+            Tên KH
+        </th>
+        <th>
+            Ngày đặt
+        </th>
+        <th>
+            Tình trạng
+        </th>
+        
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaDDH)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaDDHMerchant)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KhachHang.TenKH)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NgayDat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TrangThaiGiaoHang.TenTrangThai)
+        </td>
+       
+        
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MaChiTietDDH }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MaChiTietDDH }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MaChiTietDDH })
+        </td>*@
+    </tr>
+}
+
+</table>

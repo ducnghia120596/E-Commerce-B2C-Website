@@ -1,0 +1,68 @@
+﻿@model WebSiteBanHang.Models.ThanhVien
+
+@{
+    ViewBag.Title = "ThongTinMerchant";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+<center><h2>Thông tin liên hệ Merchant</h2></center>
+<hr />
+<div class="col-md-9 product1">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @*@Html.DisplayNameFor(model => model.TaiKhoan)*@
+            Tài khoản:
+        </dt>
+
+        <dd>
+            <font color="red"> @Html.DisplayFor(model => model.TaiKhoan)</font>
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.HoTen)*@
+            Họ tên:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoTen)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.DiaChi)*@
+            Địa chỉ:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiaChi)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.Email)*@
+            Email:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.SoDienThoai)*@
+            Số điện thoại:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoDienThoai)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.TinhTrangThanhVien.TenTinhTrang)*@
+            Tình trạng:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TinhTrangThanhVien.TenTinhTrang)
+        </dd>
+
+    </dl>
+</div>
+@Html.ActionLink("Quay lại", "ChiTietHoaDonKH")

@@ -1,0 +1,97 @@
+﻿@using WebSiteBanHang.Models;
+@model LoaiThanhVien
+@{
+    ViewBag.Title = "PhanQuyen";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+
+<h1>Phân quyền</h1>
+<h2 style="color:red;">Loại Thành viên: <font color="red">@Model.TenLoai</font></h2>
+<br />
+
+@{ 
+    // Láy danh sách Quyền
+    IEnumerable<Quyen> lstQuyen = (IEnumerable<Quyen>)ViewBag.MaQuyen;
+    IEnumerable<LoaiThanhVien_Quyen> lstLTVQuyen = (IEnumerable<LoaiThanhVien_Quyen>)ViewBag.LoaiTVQuyen;
+}
+
+@using (Html.BeginForm())
+{
+    // Mã loại thành viên
+    @Html.Hidden("MaLoaiTV",Model.MaLoaiTV)
+    if (lstQuyen!=null)
+    {
+        //Đối với trường hợp loại thành viên đã phân quyền rồi
+        for(int j = 0; j < lstQuyen.Count(); j++)
+        {
+            int k = 0; //Tạo biến k làm biến đếm để duyệt dòng lặp của bảng quyền xem nếu mà
+                       //loại thành viên nào có mã quyền(LoaiTV_Quyen) ứng với quyền (MaQuyen)
+            for(int i = 0; i < lstLTVQuyen.Count(); i++)
+            {
+                //So sánh giữa item trong bảng quyền và item trong bảng loại thành viên quyền dựa trên thuộc MaQuyen
+                if (lstLTVQuyen.ElementAt(i).MaQuyen == lstQuyen.ElementAt(j).MaQuyen)
+                {
+                    k++;
+                    break;
+                }
+            }
+            if (k != 0)
+            {
+                <div class="col-md-4" style="font-size:15pt;">
+                    <input class="ckb_click" 
+                           checked="checked" 
+                           style="width:20px;height:20px;" 
+                           type="checkbox" 
+                           name="@Url.Content("["+j+"].MaQuyen")" 
+                           value="@lstQuyen.ElementAt(j).MaQuyen"
+                     />  @lstQuyen.ElementAt(j).TenQuyen
+                </div>
+            }
+            else
+            {
+                <div class="col-md-4" style="font-size:15pt;">
+                    <input class="ckb_click" 
+                           style="width:20px;height:20px;" 
+                           type="checkbox" 
+                           name="@Url.Content("["+j+"].MaQuyen")" 
+                           value="@lstQuyen.ElementAt(j).MaQuyen" 
+                     />  @lstQuyen.ElementAt(j).TenQuyen
+                </div>
+            }
+            k = 0; // Gán lại k=0
+        }
+    }
+    else
+    {
+        //Đối với trường hợp loại thành viên chưa phân quyền
+        for(int i = 0; i < lstQuyen.Count(); i++)
+        {
+            @*Lấy danh sách quyền*@
+            <div class="col-md-4" style="font-size:15pt;">
+                <input class="ckb_click" 
+                       style="width:20px;height:20px;" 
+                       type="checkbox" 
+                       name="@Url.Content("["+i+"].MaQuyen")" 
+                       value="@lstQuyen.ElementAt(i).MaQuyen" 
+                 />  @lstQuyen.ElementAt(i).TenQuyen
+            </div>
+        }
+    }
+    <div class="clearfix"></div>
+    <input type="submit" value="Thực hiện" class="btn btn-success"/>
+}
+<br />
+@Html.ActionLink("Trở về", "Index", null,new { @class="btn btn-primary"})
+@*Viết hàm jQuery để duyệt lại checkbox đã được check*@
+<script>
+    $(".ckb_click").click(function () {
+        i = 0;
+        $(".ckb_click").each(function () {
+            if ($(this).is(':checked'))
+            {
+                $(this).attr("name", "[" + i + "].MaQuyen");
+                i++;
+            }
+        })
+    })
+</script>

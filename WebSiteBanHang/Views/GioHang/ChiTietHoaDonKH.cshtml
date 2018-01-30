@@ -1,0 +1,51 @@
+﻿@using WebSiteBanHang.Models;
+@model IEnumerable<ChiTietDonDatHang>
+@{
+    ViewBag.Title = "ChiTietHoaDonKH";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+<center><h2>Chi tiết đơn đặt hàng số <font color="red">@ViewBag.MaDDH</font></h2></center>
+<div class="col-md-9 product1">
+    <br />
+    <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="not_mapped_style" style="text-align:center">
+                <th>Mã SP</th>
+                <th>Tên SP</th>
+                <th>Người bán</th>
+                <th>Hình ảnh</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+                <th>Trạng thái giao hàng</th>
+            </tr>
+        </thead>
+                    @foreach (var item in Model)
+            {
+                        <tbody>
+                            <tr>
+                                <td>@item.MaSP</td>
+                                <td>@item.TenSP</td>
+                                <td>
+                                    <div>@item.SanPham.ThanhVien.TaiKhoan </div>
+                                    <div>@Html.ActionLink("Liên hệ", "ThongTinMerchant", new { @id = @item.SanPham.MaThanhVien })</div>
+                                </td>
+                                <td><img src="@Url.Content("~/Content/HinhAnhSP/" + item.SanPham.HinhAnh)" style="width:50px;height:50px" /></td>
+                                <td>@item.SoLuong</td>
+                                <td>@item.DonGia.Value.ToString("#,##") VNĐ</td>
+                                @{
+
+                                    decimal d = new decimal(@item.SoLuong.GetValueOrDefault());
+                                    decimal TongTien = d * @item.DonGia.GetValueOrDefault();
+                                }
+                                <td>@TongTien.ToString("#,##") VNĐ</td>
+                                <td><font color="red">@item.TrangThaiGiaoHang.TenTrangThai</font></td>
+                            </tr>
+                        </tbody>
+                            }
+</table>
+</div>
+
+@Html.ActionLink("Quay lại", "LichSuMuaHang")

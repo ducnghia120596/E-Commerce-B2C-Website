@@ -1,0 +1,20 @@
+﻿@using WebSiteBanHang.Models
+
+<div class="header-left">
+    <ul>
+        @*Hiện thông tin nếu đăng nhập thành công*@
+        @if (Session["TaiKhoan"] != null)
+        {
+            ThanhVien tv = (ThanhVien)Session["TaiKhoan"];
+            <li>Chào <font color="red">@tv.HoTen</font> --- @Html.ActionLink("Đăng xuất", "DangXuat2", "Home")</li>
+        }
+        @*else
+        {
+            <li><a class="lock" href="#" id="btnDangNhap">Đăng nhập</a></li>
+                <li><a class="lock" href="@Url.Action("Dangky","Home")">Đăng ký</a></li>
+        }*@
+    </ul>
+    
+    @*<div class="clearfix"> </div>*@
+</div>
+<div class="clearfix"> </div>

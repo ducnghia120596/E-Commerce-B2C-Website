@@ -1,0 +1,80 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.DonDatHang>
+
+@{
+    ViewBag.Title = "testDatetime";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+<link href="~/Content/Layouts/js/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/Layouts/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+
+
+<script>
+  $( function() {
+      $(".datepicker").datepicker({
+          dateFormat: "dd-mm-yy",
+          timeFormat: "hh:mm:ss"
+      });
+  } );
+</script>
+<h2>testDatetime</h2>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group form-group-sm">
+            <div class="col-md-8">
+                @Html.TextBox("start", null, new { @class = "form-control datepicker"})
+            </div>
+        </div>
+        <div class="form-group form-group-sm">
+            <div class="col-md-8">
+                @Html.TextBox("end", null, new { @class = "form-control datepicker" })
+            </div>
+        </div>
+        <div class="form-group-sm">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lọc" class="btn btn-default" /> <span> </span>
+            </div>
+        </div>
+    </div>
+}
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@ViewBag.start
+@ViewBag.end
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NgayDat)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.KhachHang.TenKH)
+        </th>
+        
+        <th></th>
+    </tr>
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayDat)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.KhachHang.TenKH)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.MaDDH }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MaDDH }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MaDDH })
+            </td>
+        </tr>
+    }
+}
+
+
+</table>

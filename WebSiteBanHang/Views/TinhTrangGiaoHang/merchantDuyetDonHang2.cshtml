@@ -1,0 +1,124 @@
+﻿@using WebSiteBanHang.Models;
+@model DonDatHangMerchant
+@{
+    ViewBag.Title = "merchantDuyetDonHang2";
+    Layout = "~/Views/Layout/MerchantLayout.cshtml";
+}
+<br />
+<h2>Thông tin đơn hàng <font color="red">@Model.KhachHang.TenKH</font></h2>
+<br /><br />
+
+@using (Html.BeginForm())
+{
+    <div class="ChiTietDonHang table">
+        @{ IEnumerable<ChiTietDonDatHangMerchant> lstChiTietDH = (IEnumerable<ChiTietDonDatHangMerchant>)ViewBag.ListChiTietDH;}
+        @Html.Hidden("MaMerchant", Model.MaMerchant)
+        <table class="table" id="table">
+            @*Thông tin đơn hàng*@
+            <tr>
+                <td>Mã ĐH: <b style="color:red">@Model.MaDDH @Html.Hidden("MaDDH", Model.MaDDH)</b></td>
+                <td>Số: <b style="color:red">@Model.MaDDHMerchant @Html.Hidden("MaDDHMerchant", Model.MaDDHMerchant)</b></td>
+                <td>Mã KH: <b style="color:red">@Model.KhachHang.MaKH</b></td>
+                <td>Tên KH: <b style="color:red">@Model.KhachHang.TenKH</b></td>
+                <td>Ngày đặt: <b style="color:red">@Model.NgayDat.Value.ToString("dd/MM/yyy")</b></td>
+                @*<td>Giao hàng: @Html.EditorFor(model => model.TinhTrangGiaoHang)</td>
+                    <td>Thành công: @Html.EditorFor(model => model.DaHuy)</td>*@
+                @if (Model.MaTrangThai != 4 && Model.MaTrangThai !=3)
+                    {
+                        <td>Trạng thái: @Html.DropDownList("MaTrangThai", null, htmlAttributes: new { @class = "form-control" })</td>
+                    }
+                    else
+                    {
+                        <td>Trạng thái: <font color="red">@Model.TrangThaiGiaoHang.TenTrangThai</font></td>
+                    }
+
+            </tr>
+            @*Phần chi tiết đơn hàng*@
+            <tr>
+                <td></td>
+                <td><b>Sản phẩm</b></td>
+                <td><b>Hình ảnh</b></td>
+                <td><b>Số lượng đặt</b></td>
+                <td><b>Đơn giá đặt</b></td>
+                <td><b>Thành tiền</b></td>
+            </tr>
+            @{
+                int i = 1;
+            }
+            @foreach (var item in lstChiTietDH)
+            {
+
+                <tr>
+                    <td>@i</td>
+                    <td>@item.SanPham.TenSP</td>
+                    <td><img width="120" height="120" src="@Url.Content("~/Content/HinhAnhSP/" + @item.SanPham.HinhAnh)" /></td>
+                    <td>@item.SoLuong</td>
+                    <td>@item.DonGia.Value.ToString("#,##") VNĐ</td>
+                    @{
+
+                        decimal d = new decimal(@item.SoLuong.GetValueOrDefault());
+                        decimal TongTien = d * @item.DonGia.GetValueOrDefault();
+                    }
+                    <td>@TongTien.ToString("#,##") VNĐ</td>
+                </tr>
+                            { i++; }
+                        }
+
+
+            @*<tr>
+                    <td>Tổng số lượng: @Model.ChiTietDonDatHangs.Sum(n => n.SoLuong)</td>
+                    <td>Tổng tiền: @Model.ChiTietDonDatHangs.Sum(n => n.DonGia * n.SoLuong).Value.ToString("#,##") đồng</td>
+                </tr>*@
+            <tr>
+                <td colspan="4" style="font-weight:bold">Tổng số lượng: <font color="red">@Model.ChiTietDonDatHangMerchants.Sum(n => n.SoLuong)</font></td>
+            </tr>
+            <tr>
+                <td colspan="4" style="font-weight:bold">Tổng tiền: <font color="red">@Model.ChiTietDonDatHangMerchants.Sum(n => n.DonGia * n.SoLuong).Value.ToString("#,##") VNĐ</font></td>
+            </tr>
+            <tr>
+                <td colspan="4" style="font-weight:bold">- Thông tin người bán:</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Họ tên: @Model.ThanhVien.HoTen</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Tên tài khoản: @Model.ThanhVien.TaiKhoan</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Số điện thoại: @Model.ThanhVien.SoDienThoai</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Địa chỉ liên hệ: @Model.ThanhVien.DiaChi</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Email: @Model.ThanhVien.Email</td>
+            </tr>
+        </table>
+        <br /><br />
+        <input type="submit" value="In đơn hàng" id="btnInDonHang" />
+        <input type="submit" value="Lưu đơn hàng" id="btnLuuDonHang" />
+
+    </div>
+                        }
+
+<script>
+
+    $("#btnInDonHang").click(function () {
+        var content = "<table>"+ $("#table").html() +"</table>";
+        InDonHang(content);
+    });
+
+    //Phương thức in
+    function InDonHang(content)
+    {
+        var printWindow = window.open('', '', 'height=400,width=800');
+        printWindow.document.write('<html><head><title>DIV Contents</title>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(content);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+</script>
+

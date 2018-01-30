@@ -1,0 +1,120 @@
+﻿@model PagedList.IPagedList<WebSiteBanHang.Models.ThanhVien>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+<br />
+<br />
+<h2 style="font-weight:bold"> Danh sách tài khoản</h2>
+<br />
+<br />
+<ul class="nav nav-tabs editcss">
+    <li class="active"><a href="@Url.Action("Index","ThanhViens")">Merchant</a></li>
+    <li><a href="@Url.Action("Index2","ThanhViens")">Customer</a></li>
+</ul>
+<br />
+@using (Html.BeginForm("Index", "ThanhViens", FormMethod.Get))
+{
+    <p>
+        Tìm theo tên: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Tìm kiếm" class="btn btn-default btn-primary" />
+        @Html.ActionLink("Clear", "Index", new { searchString = "" }, new { @class = "btn btn-default" })
+    </p>
+   
+}
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.MaThanhVien)*@
+            Mã thành viên
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.TaiKhoan)*@
+            Tên tài khoản
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.HoTen)*@
+            Họ tên
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.DiaChi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SoDienThoai)
+        </th>*@
+        <th>
+            @*@Html.DisplayNameFor(model => model.SoLuongTin)*@
+            Số lượng tin
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.SoLuongTinDaDang)*@
+            SL tin đã đăng
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.TinhTrangThanhVien.TenTinhTrang)*@
+            Tình trạng 
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaThanhVien)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaiKhoan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoTen)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.DiaChi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoDienThoai)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.SoLuongTin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoLuongTinDaDang)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TinhTrangThanhVien.TenTinhTrang)
+        </td>
+        <td>
+            @Html.ActionLink("Xem và sửa tình trạng", "Edit", new { id=item.MaThanhVien }) |
+            @*@Html.ActionLink("Details", "Details", new { id=item.MaThanhVien }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MaThanhVien })*@
+        </td>
+    </tr>
+}
+
+</table>
+<div>
+    <div class="col-lg-6">
+        Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, currentFilter = ViewBag.CurrentFilter }))
+    </div>
+    <div class="col-lg-4">
+        <p style="font-size:45px">
+            @Html.ActionLink("Tạo mới", "Create", null, new { @class = "btn btn-info btn-lg" })
+        </p>
+    </div>
+</div>
+
+
+
+
+

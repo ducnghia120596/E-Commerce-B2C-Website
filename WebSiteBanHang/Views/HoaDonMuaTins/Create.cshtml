@@ -1,0 +1,91 @@
+﻿@model WebSiteBanHang.Models.HoaDonMuaTin
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+
+<h2>Tạo mới hóa đơn mua tin</h2>
+<br />
+<br />
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.MaThanhVien, "MaThanhVien", htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="control-label col-md-2">
+                Tên tài khoản:
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("MaThanhVien", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MaThanhVien, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.NgayMua, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="control-label col-md-2">
+                Ngày mua:
+            </div>
+            <div class="col-md-4">
+                @{
+                    string dt =DateTime.Now.ToString();
+                }
+                @Html.TextBoxFor(model => model.NgayMua, new {@Value = dt ,@readonly="readonly" })
+                @*@Html.TextBoxFor(model => model.NgayMua,
+           new { @type = "date" })*@
+                @*@Html.EditorFor(model => model.NgayMua, new { @type = "date" })*@
+                @Html.ValidationMessageFor(model => model.NgayMua, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.SoLuong, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="control-label col-md-2">
+                Số lượng:
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.SoLuong, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SoLuong, "", new { @class = "text-danger" })
+            </div>
+            </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.DonGia, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="control-label col-md-2">
+                Đơn giá:
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.DonGia, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DonGia, "", new { @class = "text-danger" })
+            </div>
+            </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.ThanhTien, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="control-label col-md-2">
+                Thành tiền:
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.ThanhTien, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ThanhTien, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Tạo mới" class="btn btn-info btn-lg" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

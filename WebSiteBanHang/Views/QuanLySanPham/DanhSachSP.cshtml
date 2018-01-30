@@ -1,0 +1,84 @@
+﻿@model PagedList.IPagedList<WebSiteBanHang.Models.SanPham>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "DanhSachSP";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<br />
+<br />
+<center><h2 style="font-weight:bold">Danh sách sản phẩm</h2></center>
+<br />
+@using (Html.BeginForm("DanhSachSP", "QuanLySanPham", FormMethod.Get))
+{
+    <p>
+        Tìm theo tên: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" class="btn btn-default btn-primary" />
+        @Html.ActionLink("Clear", "DanhSachSP", new { searchString = "" }, new { @class = "btn btn-default" })
+    </p>
+    
+}
+
+<table class="table table-bordered table-hover" style="background-color:white">
+    <thead style="background-color:cadetblue">
+        <tr>
+            <th>Mã SP</th>
+            <th>
+                @*Tên SP*@
+                @Html.ActionLink("Tên SP", "DanhSachSP", new { sortOrder = ViewBag.TenSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @*Giá*@
+                @Html.ActionLink("Giá", "DanhSachSP", new { sortOrder = ViewBag.DonGiaSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @*Ngày đăng*@
+                @Html.ActionLink("Ngày đăng", "DanhSachSP", new { sortOrder = ViewBag.NgaySortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            <th>Hình ảnh</th>
+            <th>Số lượng tồn</th>
+            <th>Người bán</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaSP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenSP)
+                    
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.DonGia)*@
+                    @item.DonGia.Value.ToString("#,##") VNĐ
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayCapNhap)
+                    
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="" style="width:70px;height:70px">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoLuongTon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThanhVien.TaiKhoan)
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("DanhSachSP",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+

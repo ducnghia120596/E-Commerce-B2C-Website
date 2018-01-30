@@ -1,0 +1,66 @@
+﻿@using WebSiteBanHang.Models;
+@model List<DonDatHang>
+
+@{
+    ViewBag.Title = "LichSuMuaHang";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+<center><h1 style="font-weight:bold">Lịch sử mua hàng</h1></center>
+<br />
+<br />
+@if (Model.Count <= 0 || Model == null)
+{
+    <h3 style="color:red;text-align:center;font-weight:bold">KHÔNG CÓ LỊCH SỬ MUA HÀNG</h3>
+}
+else
+{
+    <div class="col-md-9 product1">
+        <table class="table">
+            <tr>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.MaDDH)*@
+                    Mã đơn hàng
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.NgayDat)*@
+                    Ngày đặt
+                </th>
+                <th>
+                    Số lượng
+                </th>
+                <th>
+                    Tổng tiền
+                </th>
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaDDH)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NgayDat)
+                    </td>
+                    <td>
+                        @item.ChiTietDonDatHangs.Count()
+                    </td>
+                    <td>
+                        @{string tongtien = item.ChiTietDonDatHangs.Sum(n => n.DonGia * n.SoLuong).Value.ToString("#,##");}
+                        @tongtien VNĐ
+                    </td>
+                    <td>
+                        @Html.ActionLink("Xem chi tiết", "ChiTietHoaDonKH", new { id = item.MaDDH })
+                        @*@Html.ActionLink("Details", "Details", new { id=item.MaDDH }) |
+                            @Html.ActionLink("Delete", "Delete", new { id=item.MaDDH })*@
+                    </td>
+                </tr>
+                            }
+
+        </table>
+    </div>
+                    }
+@Html.ActionLink("Quay lại", "XemGioHang")

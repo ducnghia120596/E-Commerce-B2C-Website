@@ -1,0 +1,78 @@
+﻿@*@model IEnumerable<WebSiteBanHang.Models.SanPham>*@
+@model PagedList.IPagedList<WebSiteBanHang.Models.SanPham>
+@using PagedList.Mvc;
+@{
+    Layout = null;
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    @using (Html.BeginForm("Index","TestSearch",FormMethod.Get))
+    {
+        <p>Tìm theo tên: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" class="btn btn-default btn-primary" /></p>
+        @Html.ActionLink("Clear", "Index", new { searchString = "" }, new { @class = "btn btn-default" })
+    }
+    <table class="table">
+
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.MaSP)*@
+                Mã sản phẩm
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TenSP)*@
+                @Html.ActionLink("Tên sản phẩm", "Index",new { sortOrder = ViewBag.TenSortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            
+            <th>
+                @*@Html.DisplayNameFor(model => model.NgayCapNhap)*@
+                @Html.ActionLink("Ngày cập nhật", "Index", new { sortOrder=ViewBag.NgaySortParm, currentFilter = ViewBag.CurrentFilter })
+            </th>
+            
+            <th>
+                @*@Html.DisplayNameFor(model => model.ThanhVien.TaiKhoan)*@
+                Tài khoản
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaSP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenSP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayCapNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThanhVien.TaiKhoan)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.MaSP }) |
+                @Html.ActionLink("Details", "Details", new { id=item.MaSP }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.MaSP })
+            </td>
+        </tr>
+    }
+    
+    </table>
+    <br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+</body>
+</html>

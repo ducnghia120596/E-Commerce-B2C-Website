@@ -1,0 +1,96 @@
+﻿@using CaptchaMvc.HtmlHelpers;
+@using CaptchaMvc;
+@using WebSiteBanHang.Models;
+@model ThanhVien
+@{
+    ViewBag.Title = "DangKy";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+<div class="DangKy">
+    <div class="register">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <h1>Đăng kí thành viên</h1>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-5 register-top-grid">
+                <h3>Thông tin cá nhân</h3>
+                <div>
+                    @Html.LabelFor(model => model.TaiKhoan)
+                    @Html.TextBoxFor(model=>model.TaiKhoan)
+                    @Html.ValidationMessageFor(model=>model.TaiKhoan)
+                </div>
+                <div>
+                    <span>Họ tên</span>
+                    @Html.TextBox("HoTen")
+                </div>
+                <div>
+                    <span>Địa chỉ</span>
+                    @Html.TextBox("DiaChi")
+                </div>
+                <div>
+                    <span>Email</span>
+                    @Html.TextBox("Email")
+                </div>
+                <div>
+                    <span>Số điện thoại</span>
+                    @Html.TextBox("SoDienThoai")
+                </div>
+            </div>
+            <div class="col-md-4 register-bottom-grid">
+                <h3>Thông tin đăng nhập</h3>
+                <div>
+                    <span>Mật khẩu</span>
+                    @Html.Password("MatKhau")
+                </div>
+                <div>
+                    <span>Nhập lại mật khẩu</span>
+                    @Html.Password("MatKhau")
+                </div>
+                <div>
+                    <span>Câu hỏi bí mật</span>
+                    <br />
+                    @Html.DropDownList("CauHoi")
+                    <br />
+                </div>
+                <br />
+                <div>
+                    <span>Câu trả lời</span>
+                    <br />
+                    @Html.TextBox("CauTraLoi")
+                </div>
+                <br />
+                <br />
+                <div>
+                    @*<span>Bán hàng</span>
+                    @Html.CheckBox("MaLoaiTV")*@
+                    @Html.CheckBox("checkMerchant")
+                    <label for="checkMerchant" style="display:inline">Bán hàng</label>
+                </div>
+                <br />
+                <br />
+                <div>
+                    @Html.MathCaptcha()
+                </div>
+                <br />
+                <br />
+
+                <input type="submit" value="Xác nhận">
+                <div class="clearfix"> </div>
+                <br />
+
+                 <h1 style="color:red;text-align:center">@ViewBag.ThongBao</h1>
+               
+            </div>
+            <div class="clearfix"> </div>
+            @*<div>
+                <h1 style="color:red">@ViewBag.ThongBao</h1>
+            </div>*@
+        }
+        
+    </div>
+    
+</div>
+
+

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.Quyen>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+<br />
+<br />
+<h2 style="font-weight:bold">Danh sách quyền của hệ thống</h2>
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.MaQuyen)*@
+            Mã quyền
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.TenQuyen)*@
+            Tên quyền
+        </th>
+        <th></th>
+        @*<th></th>*@
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaQuyen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenQuyen)
+        </td>
+        <td>
+            @Html.ActionLink("Sửa", "Edit", new { id=item.MaQuyen }, new { @class = "btn btn-primary" }) 
+        </td>
+        @*<td>
+            @Html.ActionLink("Xóa", "Delete", new { id = item.MaQuyen }, new { @class = "btn btn-primary" })
+        </td>*@
+    </tr>
+}
+
+</table>
+<br />
+<br />
+
+<p>
+    @Html.ActionLink("Tạo mới", "Create",null,new { @class = "btn btn-info btn-lg" })
+</p>

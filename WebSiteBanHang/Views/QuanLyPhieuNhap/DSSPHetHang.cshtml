@@ -1,0 +1,60 @@
+﻿@using WebSiteBanHang.Models;
+@model IEnumerable<SanPham>
+
+@{
+    ViewBag.Title = "DSSPHetHang";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 5);
+}
+<h2>Sản phẩm sắp hết hàng</h2>
+@*Thể hiện dữ liệu thông qua control WebGrid *@
+@grid.GetHtml(
+    tableStyle: "gridTable",
+    headerStyle: "gridHead",
+    footerStyle: "gridFooter",
+    rowStyle: "gridRow",
+    alternatingRowStyle: "gridAltRow",
+    columns: grid.Columns(
+    grid.Column("MaSP", "Tên sản phẩm"),
+    grid.Column("TenSP", "Tên SP"),
+    //grid.Column("MoTa","Mô tả",format:p=>Html.Raw(p.MoTa)),
+    grid.Column("HinhAnh", "Hình ảnh", format: p => Html.Raw("<img src=\"../Content/HinhAnhSP/" + p.HinhAnh + "\" style=\"height:100px;width:150px\">")),
+    grid.Column(format: p => Html.ActionLink("Nhập hàng", "NhapHangDon", new { id = p.MaSP },new { @target="_blank"}))
+    )
+)
+
+
+<style>
+    .gridHead {
+        background-color: green;
+    }
+
+        .gridHead > th > a {
+            color: white;
+        }
+
+    /*.gridRow{
+        color:black;
+        background-color:blue
+    }*/
+
+    .gridAltRow {
+        border: 1px solid black;
+    }
+
+    .gridFooter {
+        font-weight: bold;
+    }
+
+    .gridTable {
+        width: 100%;
+        border: 1px solid black;
+    }
+
+        .gridTable > th, td {
+            border: 1px solid orange;
+            text-align: center;
+        }
+</style>
+

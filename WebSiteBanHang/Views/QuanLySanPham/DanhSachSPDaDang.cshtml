@@ -1,0 +1,89 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.SanPham>
+
+@{
+    ViewBag.Title = "DanhSachSPDaDang";
+    Layout = "~/Views/Layout/MerchantLayout.cshtml";
+}
+<br />
+<br />
+
+<h2 style="font-weight:bold">Danh sách sản phẩm đã đăng bán</h2>
+<br />
+<br />
+
+<table class="table table-hover table-bordered" style="background-color:white">
+    <thead style="background-color:cadetblue">
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.TenSP)*@
+                Tên sản phẩm
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.DonGia)*@
+                Giá
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.NgayCapNhap)*@
+                Ngày đăng
+            </th>
+
+            @*<th>
+                    @Html.DisplayNameFor(model => model.MoTa)
+                </th>*@
+            <th>
+                @*@Html.DisplayNameFor(model => model.HinhAnh)*@
+                Hình ảnh
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.SoLuongTon)*@
+                Số lượng tồn
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.LoaiSanPham.TenLoai)*@
+                Loại SP
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+@foreach (var item in Model)
+{
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenSP)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.DonGia)*@
+                @item.DonGia.Value.ToString("#,##") VNĐ
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayCapNhap)
+            </td>
+
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.MoTa)
+                </td>*@
+            <td>
+                @*@Html.DisplayFor(modelItem => item.HinhAnh)*@
+                <img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="" style="width:70px;height:70px">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuongTon)
+            </td>
+
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.LoaiSanPham.TenLoai)
+            </td>
+
+            <td>
+                @Html.ActionLink("Update số lượng", "ChinhSua", new { id = item.MaSP }) |
+            </td>
+        </tr>
+    </tbody>
+}
+
+</table>

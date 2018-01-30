@@ -1,0 +1,80 @@
+﻿@using WebSiteBanHang.Models;
+@model IEnumerable<SanPham>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+
+    
+}
+
+<br /><br />
+@using (Html.BeginForm("Index","QuanLySanPham",FormMethod.Post))
+{
+    <table style="width:80%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="right">
+                Search :
+            </td>
+            <td align="left">
+                Search by detail: @Html.TextBox("sTuKhoa", "")
+                <input type="submit" value="Search" />
+            </td>
+            <td align="left"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <br />
+                @{ var grid = new WebGrid(source: Model, rowsPerPage: 20);}
+                @*Thể hiện dữ liệu thông qua control WebGrid *@
+                @grid.GetHtml(
+    tableStyle: "gridTable",
+    headerStyle: "gridHead",
+    footerStyle: "gridFooter",
+    rowStyle: "gridRow",
+    alternatingRowStyle: "gridAltRow",
+    columns: grid.Columns(
+    grid.Column("MaSP", "Mã SP"),
+    grid.Column("TenSP", "Tên SP"),
+    //grid.Column("MoTa","Mô tả",format:p=>Html.Raw(p.MoTa)),
+    grid.Column("HinhAnh", "Hình ảnh", format: p => Html.Raw("<img src=\"../Content/HinhAnhSP/" + p.HinhAnh + "\" style=\"height:100px;width:150px\">")),
+    grid.Column(format: p => Html.ActionLink("Chỉnh sửa", "ChinhSua", new { id = p.MaSP })),
+    grid.Column(format: p => Html.ActionLink("Xóa", "Xoa", new { id = p.MaSP }))
+    )
+)
+            </td>
+        </tr>
+    </table>
+}
+
+<style>
+    .gridHead {
+        background-color: green;
+    }
+
+        .gridHead > th > a {
+            color: white;
+        }
+
+    /*.gridRow{
+                    color:black;
+                    background-color:blue
+                }*/
+
+    .gridAltRow {
+        border: 1px solid black;
+    }
+
+    .gridFooter {
+        font-weight: bold;
+    }
+
+    .gridTable {
+        width: 100%;
+        border: 1px solid black;
+    }
+
+        .gridTable > th, td {
+            border: 1px solid orange;
+            text-align: center;
+        }
+</style>

@@ -1,0 +1,76 @@
+﻿@using WebSiteBanHang.Models;
+@model IEnumerable<DonDatHang>
+
+@{
+    ViewBag.Title = "Huy";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+
+    WebGrid grid = new WebGrid(source: Model, rowsPerPage: 2);
+}
+
+<h2>Quản lý đơn hàng ( HỦY )</h2>  <br />
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="@Url.Action("XacNhan","TinhTrangGiaoHang")">Xác nhận</a></li>
+    <li role="presentation"><a href="@Url.Action("GiaoHang","TinhTrangGiaoHang")">Giao Hàng</a></li>
+    <li role="presentation"><a href="@Url.Action("ThanhCong","TinhTrangGiaoHang")">Thành công</a></li>
+    <li role="presentation" class="active"><a href="@Url.Action("Huy","TinhTrangGiaoHang")">Hủy</a></li>
+</ul>
+<br />
+@grid.GetHtml(
+    tableStyle: "divTable",
+    headerStyle: "gridHead",
+    footerStyle: "gridFooter",
+    rowStyle: "gridRow",
+    alternatingRowStyle: "gridAltRow",
+    columns: grid.Columns(
+    grid.Column("MaDDH", header: "Mã đơn hàng"),
+        grid.Column("MaKH", header: "Họ tên KH", format: p => p.MaKH != null ? p.KhachHang.TenKH : ""),
+        grid.Column("NgayDat", header: "Ngày đặt"),
+        grid.Column("NgayGiao", header: "Ngày giao"),
+    //grid.Column("TinhTrangGiaoHang", header: "Tình trạng giao hàng", format: p => p.TinhTrangGiaoHang == true ? "Giao hàng" : "Xác nhận"),
+    //grid.Column("DaHuy", header: "Thành công", format: p => p.DaHuy == true ? "Đã hủy" : "Thành công"),
+    grid.Column(format: p => @Html.ActionLink("Xem chi tiết", "DuyetDonHang", new { id = p.MaDDH }, new { @target = "_blank" }))
+
+        ))
+
+
+@*Css cho controller*@
+<style>
+    .nav > li {
+        background: rgba(0,0,0,.5);
+    }
+
+    .divTable {
+        width: 100%;
+        border: 1px solid #999999;
+    }
+
+        .divTable td {
+            border: 1px solid #999999;
+        }
+
+    .gridHead {
+        background-color: Green;
+    }
+
+        .gridHead > th > a {
+            color: #fff;
+        }
+
+    .gridFooter {
+        font-weight: bold;
+    }
+
+    .divTable a {
+        color: blue;
+    }
+    /*.gridRow {
+        color:#fff;
+        background-color:blueviolet;
+    }
+    .gridAltRow {
+        color:#fff;
+        background-color:darkorange;
+    }*/
+</style>
+

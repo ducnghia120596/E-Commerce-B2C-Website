@@ -1,0 +1,104 @@
+﻿@using WebSiteBanHang.Models;
+@model ChiTietDonDatHang
+@{
+    ViewBag.Title = "merchantDuyetDonHang";
+    Layout = "~/Views/Layout/MerchantLayout.cshtml";
+}
+<br />
+<br />
+<h2 style="font-weight:bold">Duyệt đơn hàng</h2>
+<br />
+<br />
+
+<h2>Thông tin đơn hàng <font color="red">@Model.DonDatHang.KhachHang.TenKH</font></h2>
+<br /><br />
+
+@using (Html.BeginForm())
+{
+    <div class="ChiTietDonHang table">
+        <table class="table" id="table">
+            @*Thông tin đơn hàng*@
+            <tr>
+                <td>Mã đơn hàng: <b style="color:red">@Model.MaChiTietDDH @Html.Hidden("MaChiTietDDH", Model.MaChiTietDDH)</b></td>
+                <td>Mã khách hàng: <b style="color:red">@Model.DonDatHang.MaKH</b></td>
+                <td>Tên khách hàng: <b style="color:red">@Model.DonDatHang.KhachHang.TenKH</b></td>
+                <td>Ngày đặt: @Model.DonDatHang.NgayDat.Value.ToString("dd/MM/yyy")</td>
+                @*<td>Giao hàng: @Html.EditorFor(model => model.TinhTrangGiaoHang)</td>
+                    <td>Thành công: @Html.EditorFor(model => model.DaHuy)</td>*@
+                @if (Model.MaTrangThai != 4 && Model.MaTrangThai != 3)
+                {
+                    <td>Trạng thái: @Html.DropDownList("MaTrangThai", null, htmlAttributes: new { @class = "form-control" })</td>
+                }
+                else
+                {
+                    <td>Trạng thái: <font color="red">@Model.TrangThaiGiaoHang.TenTrangThai</font></td>
+                }
+
+            </tr>
+            @*Phần chi tiết đơn hàng*@
+            <tr>
+                <td><b>Sản phẩm</b></td>
+                <td><b>Hình ảnh</b></td>
+                <td><b>Số lượng đặt</b></td>
+                <td><b>Đơn giá đặt</b></td>
+            </tr>
+            <tr>
+                <td>@Model.SanPham.TenSP</td>
+                <td><img width="120" height="120" src="@Url.Content("~/Content/HinhAnhSP/" + @Model.SanPham.HinhAnh)" /></td>
+                <td>@Model.SoLuong</td>
+                <td>@Model.DonGia.Value.ToString("#,##") VNĐ</td>
+            </tr>
+            @{
+
+                decimal d = new decimal(Model.SoLuong.GetValueOrDefault());
+                decimal TongTien = d * Model.DonGia.GetValueOrDefault();
+            }
+            <tr>
+                <td>Tổng tiền: @TongTien.ToString("#,##") VNĐ</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="font-weight:bold">- Thông tin người bán:</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Họ tên: @Model.SanPham.ThanhVien.HoTen</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Tên tài khoản: @Model.SanPham.ThanhVien.TaiKhoan</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Số điện thoại: @Model.SanPham.ThanhVien.SoDienThoai</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Địa chỉ liên hệ: @Model.SanPham.ThanhVien.DiaChi</td>
+            </tr>
+            <tr>
+                <td colspan="4">- Emailn: @Model.SanPham.ThanhVien.Email</td>
+            </tr>
+        </table>
+        <br /><br />
+        <input type="submit" value="In đơn hàng" id="btnInDonHang" />
+        <input type="submit" value="Lưu đơn hàng" id="btnLuuDonHang" />
+
+    </div>
+                }
+
+<script>
+
+    $("#btnInDonHang").click(function () {
+        var content = "<table>"+ $("#table").html() +"</table>";
+        InDonHang(content);
+    });
+
+    //Phương thức in
+    function InDonHang(content)
+    {
+        var printWindow = window.open('', '', 'height=400,width=800');
+        printWindow.document.write('<html><head><title>DIV Contents</title>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write(content);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+</script>

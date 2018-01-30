@@ -1,0 +1,188 @@
+﻿@using WebSiteBanHang.Models;
+@model PhieuNhap
+
+
+@{
+    ViewBag.Title = "NhapHang";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+
+@{ 
+    IEnumerable<NhaCungCap> lstNCC = ViewBag.MaNCC as IEnumerable<NhaCungCap>;
+}
+
+<link href="~/Content/Layouts/js/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/Layouts/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+</script>
+<h2>NhapHang</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="ThongTinPhieuNhap col-md-12">
+            <div class="col-md-2">
+                Nhà cung cấp
+            </div>
+            <div class="col-md-5">
+                <select class="MaNCC" name="MaNCC">
+                    @foreach(var item in lstNCC)
+                    {
+                        <option value="@item.MaNCC">@item.TenNCC</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <br />
+    <div class="row">
+        <div class="ThongTinPhieuNhap col-md-12">
+            <div class="col-md-2">
+                Ngày nhập:
+            </div>
+            <div class="col-md-5">
+                @*Lưu ý phải có type = "text" mới lấy được ngày*@
+                <input type="text" name="NgayNhap" id="datepicker"> 
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <br />
+
+    @*Bảng chi tiết nhập hàng*@
+    <table class="table tblChiTietPhieuNhap">
+        @{ IEnumerable<SanPham> lstSanPham = ViewBag.ListSanPham as IEnumerable<SanPham>;}
+        <tr class="trAppend" style="display:none">
+            <td>
+                <select class="ddlSanPham" name="">
+                    @foreach(var item in lstSanPham)
+                    {
+                        <option value="@item.MaSP">@item.TenSP</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <input name="" class="txtDonGia" value="0"/>
+            </td>
+            <td>
+                <input name="" class="txtSoLuong" value="0"/>
+            </td>
+            <td>
+                <input class="btnDelete btn btn-danger" style="width:30px;height:30px" value="-"/>
+            </td>
+        </tr>
+        <tr class="trFirstChild" data-id="-1">
+            <td>Sản phẩm</td>
+            <td>Đơn giá nhập</td>
+            <td>Số lượng nhập</td>
+            <td></td>
+        </tr>
+    </table>
+    <input type="button" class="btn btn-success" id="btnAdd" style="width:40px;height:30px;text-align:center" value="+"/>
+    <input type="submit" class="btn btn-primary" id="btnNhapHang" style="width:120px;height:30px;text-align:center" value="Nhập hàng" />
+}
+
+
+<script>
+    $("#btnAdd").click(function () {
+
+        // Lấy id của tr cuối cùng thuộc thẻ table có class = tblChiTietPhieuNhap
+        //Bước 4: Phương thức find là tìm đến thẻ nào đó: ở đây là thẻ tr (:last-child) là thẻ tr cuối cùng trong thẻ tblChiTietPhieuNhap
+        var id_cuoi = $(".tblChiTietPhieuNhap").find("tr:last-child").attr("data-id");
+        i = parseInt(id_cuoi) + 1;
+        //Bước 1: Nội dung phía trong thẻ trAppend
+        var tdnoidung = $(".trAppend").html();
+        //Bước 2:Tạo 1 thẻ tr bao ngoài nội dung
+        var trnoidung = "<tr class=\"trAppended\" data-id=\"" + i + "\">" + tdnoidung + "</tr>";
+        ////Bước 3: Lấy thẻ table append vào 1 tr
+        $(".tblChiTietPhieuNhap").append(trnoidung);
+        loadIDLENTHE();
+    });
+    // 
+    function loadIDLENTHE() {
+        $(".trAppended").each(function () {
+            // Lấy thuộc tính data-id của thẻ hiện tại
+            var id = $(this).attr("data-id");
+            var nameMaSanPham = "[" + id + "].MaSP";  // tạo ra mã sp
+            var nameSoLuongNhap = "[" + id + "].SoLuongNhap";
+            var nameDonGiaNhap = "[" + id + "].DonGiaNhap"
+
+            $(this).find(".ddlSanPham").attr("name", nameMaSanPham);
+            $(this).find(".txtDonGia").attr("name", nameDonGiaNhap);
+            $(this).find(".txtSoLuong").attr("name", nameSoLuongNhap);
+        });
+    };
+    // Cập nhật ID
+    function CapNhatID() {
+        //Lấy lại tr 1
+        var id_cuoi = $(".tblChiTietPhieuNhap").find(".trFirstChild").attr("data-id");
+        i = parseInt(id_cuoi) + 1;
+
+        $(".trAppended").each(function () {
+            var id = i;
+            $(this).attr("data-id", i);
+            //Cập nhật lại id khi xóa
+            var nameMaSanPham = "[" + id + "].MaSP"; //Tạo ra mã sản phẩm
+            var nameSoLuongNhap = "[" + id + "].SoLuongNhap"; //Tạo ra số lượng nhập
+            var nameDonGiaNhap = "[" + id + "].DonGiaNhap";   //Tạo ra đơn giá nhập
+            $(this).find(".ddlSanPham").attr("name", nameMaSanPham);//Gán name cho dropdownlist
+            $(this).find(".txtDonGia").attr("name", nameDonGiaNhap);//Gán name đơn giá nhập
+            $(this).find(".txtSoLuong").attr("name", nameSoLuongNhap);//Gán name số lượng nhập
+            i++;
+        })
+    }
+
+    // Xử lý sự kiện xóa ( sử dụng delegate vì đã sử dụng append ..code sinh ra sau ..k thể dùng click được
+    $("body").delegate(".btnDelete", "click", function () {
+        $(this).closest(".trAppended").remove();
+        CapNhatID();
+    });
+
+
+    // Kiểm tra validation
+    $("#btnNhapHang").click(function () {
+        loi=0
+        if (kiemtraDonGia() == false) {
+            
+            alert("Đơn giá không hợp lệ!");
+            loi++;
+        }
+        if (kiemTraSoLuong() == false) {
+            alert("Số lượng không hợp lệ!");
+            loi++
+        }
+        if (loi > 0) {
+            //ngăn không cho submit về server
+            return false;
+        }
+    });
+
+    // Kiểm tra đơn giá
+    function kiemtraDonGia() {
+        var bl = true;
+        $(".txtDonGia").each(function () {
+            var giatri = $(this).val();
+            if(isNaN(giatri)==true)
+            {
+                
+                bl = false;
+            }
+        });
+        return bl;
+    }
+    function kiemTraSoLuong() {
+        var bl = true;
+        $(".txtSoLuong").each(function () {
+            var giatri = $(this).val();
+            if (isNaN(giatri) == true) {
+                
+                bl = false;
+            }
+        });
+        return bl;
+    }
+</script>

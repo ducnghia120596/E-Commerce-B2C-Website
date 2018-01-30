@@ -1,0 +1,207 @@
+﻿@using WebSiteBanHang.Models
+@model IEnumerable<SanPham>
+
+
+<div class="h_menu4">
+    <ul class="memenu skyblue">
+        <li class="showhide" style="display: none;"><span class="title">MENU</span><span class="icon1"></span><span class="icon2"></span></li>
+        <li class="active grid" style="display: inline;"><a class="color8" href="@Url.Action("Index","Home")">Trang chủ</a></li>
+        @*@foreach (var groupItem in Model.GroupBy(n => n.LoaiSanPham))
+        {
+            // Điều kiện khác NULL , vì CSDL chưa nhập
+            if (groupItem.Key != null)
+            {
+                <li style="display: inline;">
+                    <a class="color1" href="#">@groupItem.Key.TenLoai</a>
+                    <div class="mepanel">
+                        <div class="row">
+                            <div class="col1">
+                                <div class="h_nav">
+                                    <ul>
+                                        @foreach (var item in groupItem.GroupBy(n => n.NhaSanXuat))
+                                        {
+                                            if (item.Key != null)
+                                            {
+                                                <li><a href="@Url.Action("SanPham","SanPham",new { @MaLoaiSP=groupItem.Key.MaLoaiSP,@MaNSX=item.Key.MaNSX})">@item.Key.TenNSX</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        }*@
+        <li style="display: inline;">
+                <a class="color1" href="@Url.Action("DanhSachGiay","SanPham")">Giày</a>
+                <div class="mepanel">
+                    @*<div class="row">
+                        <div class="col1">
+                            <div class="h_nav">
+                                <ul>
+                                    <li><a href="products.html">accessories</a></li>
+                                    <li><a href="products.html">bags</a></li>
+                                    <li><a href="products.html">caps &amp; hats</a></li>
+                                    <li><a href="products.html">hoodies &amp; sweatshirts</a></li>
+                                    <li><a href="products.html">jackets &amp; coats</a></li>
+                                    <li><a href="products.html">jeans</a></li>
+                                    <li><a href="products.html">jewellery</a></li>
+                                    <li><a href="products.html">jumpers &amp; cardigans</a></li>
+                                    <li><a href="products.html">leather jackets</a></li>
+                                    <li><a href="products.html">long sleeve t-shirts</a></li>
+                                    <li><a href="products.html">loungewear</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col1">
+                            <div class="h_nav">
+                                <ul>
+                                    <li><a href="products.html">shirts</a></li>
+                                    <li><a href="products.html">shoes, boots &amp; trainers</a></li>
+                                    <li><a href="products.html">shorts</a></li>
+                                    <li><a href="products.html">suits &amp; blazers</a></li>
+                                    <li><a href="products.html">sunglasses</a></li>
+                                    <li><a href="products.html">sweatpants</a></li>
+                                    <li><a href="products.html">swimwear</a></li>
+                                    <li><a href="products.html">trousers &amp; chinos</a></li>
+                                    <li><a href="products.html">t-shirts</a></li>
+                                    <li><a href="products.html">underwear &amp; socks</a></li>
+                                    <li><a href="products.html">vests</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col1">
+                            <div class="h_nav">
+                                <h4>popular brands</h4>
+                                <ul>
+                                    <li><a href="products.html">levis</a></li>
+                                    <li><a href="products.html">persol</a></li>
+                                    <li><a href="products.html">nike</a></li>
+                                    <li><a href="products.html">edwin</a></li>
+                                    <li><a href="products.html">new balance</a></li>
+                                    <li><a href="products.html">jack &amp; jones</a></li>
+                                    <li><a href="products.html">paul smith</a></li>
+                                    <li><a href="products.html">ray-ban</a></li>
+                                    <li><a href="products.html">wood wood</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </li>
+        <li style="display: inline;">
+            <a class="color1" href="@Url.Action("DanhSachDep","SanPham")">Dép</a>
+            <div class="mepanel">
+                @*<div class="row">
+                    <div class="col1">
+                        <div class="h_nav">
+                            <ul>
+                                <li><a href="products.html">accessories</a></li>
+                                <li><a href="products.html">bags</a></li>
+                                <li><a href="products.html">caps &amp; hats</a></li>
+                                <li><a href="products.html">hoodies &amp; sweatshirts</a></li>
+                                <li><a href="products.html">jackets &amp; coats</a></li>
+                                <li><a href="products.html">jeans</a></li>
+                                <li><a href="products.html">jewellery</a></li>
+                                <li><a href="products.html">jumpers &amp; cardigans</a></li>
+                                <li><a href="products.html">leather jackets</a></li>
+                                <li><a href="products.html">long sleeve t-shirts</a></li>
+                                <li><a href="products.html">loungewear</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col1">
+                        <div class="h_nav">
+                            <ul>
+                                <li><a href="products.html">shirts</a></li>
+                                <li><a href="products.html">shoes, boots &amp; trainers</a></li>
+                                <li><a href="products.html">shorts</a></li>
+                                <li><a href="products.html">suits &amp; blazers</a></li>
+                                <li><a href="products.html">sunglasses</a></li>
+                                <li><a href="products.html">sweatpants</a></li>
+                                <li><a href="products.html">swimwear</a></li>
+                                <li><a href="products.html">trousers &amp; chinos</a></li>
+                                <li><a href="products.html">t-shirts</a></li>
+                                <li><a href="products.html">underwear &amp; socks</a></li>
+                                <li><a href="products.html">vests</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col1">
+                        <div class="h_nav">
+                            <h4>popular brands</h4>
+                            <ul>
+                                <li><a href="products.html">levis</a></li>
+                                <li><a href="products.html">persol</a></li>
+                                <li><a href="products.html">nike</a></li>
+                                <li><a href="products.html">edwin</a></li>
+                                <li><a href="products.html">new balance</a></li>
+                                <li><a href="products.html">jack &amp; jones</a></li>
+                                <li><a href="products.html">paul smith</a></li>
+                                <li><a href="products.html">ray-ban</a></li>
+                                <li><a href="products.html">wood wood</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+        </li>
+        @*
+            <div class="col1">
+                <div class="h_nav">
+                    <ul>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col1">
+                <div class="h_nav">
+                    <ul>
+                        <li><a href="products.html">Shirts</a></li>
+                        <li><a href="products.html">Shoes, Boots &amp; Trainers</a></li>
+                        <li><a href="products.html">Shorts</a></li>
+                        <li><a href="products.html">Suits &amp; Blazers</a></li>
+                        <li><a href="products.html">Sunglasses</a></li>
+                        <li><a href="products.html">Sweatpants</a></li>
+                        <li><a href="products.html">Swimwear</a></li>
+                        <li><a href="products.html">Trousers &amp; Chinos</a></li>
+                        <li><a href="products.html">T-Shirts</a></li>
+                        <li><a href="products.html">Underwear &amp; Socks</a></li>
+                        <li><a href="products.html">Vests</a></li>
+                    </ul>
+                </div>
+            </div>*@
+        <li class="grid" style="display: inline;">
+            <a class="color2" href="#">Thương hiệu</a>
+            <div class="mepanel">
+                <div class="row">
+                    @*@foreach (var groupItem in Model.GroupBy(n => n.LoaiSanPham))
+                    {
+                        if (groupItem.Key != null)
+                        {
+                            <div class="col1">
+                                <div class="h_nav">
+                                    <h4>@groupItem.Key.TenLoai</h4>
+                                    <ul>
+                                        @foreach (var item in groupItem.GroupBy(n => n.NhaSanXuat))
+                                        {
+                                            if (item.Key != null)
+                                            {
+                                                <li><a href="@Url.Action("SanPham","SanPham",new { @MaLoaiSP=groupItem.Key.MaLoaiSP,@MaNSX=item.Key.MaNSX})">@item.Key.TenNSX</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }*@
+
+                    }
+                    
+                </div>
+            </div>
+        </li>
+        <li style="display: inline;"><a class="color4" href="blog.html">Giới thiệu</a></li>
+        <li style="display: inline;"><a class="color6" href="contact.html">Liên lạc</a></li>
+    </ul>
+</div>

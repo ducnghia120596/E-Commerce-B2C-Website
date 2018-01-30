@@ -1,0 +1,84 @@
+﻿@using WebSiteBanHang.Models;
+
+
+@*Vì action SuaGioHang bên Controller trả về kiểu 1 sản phẩm..nên kiểu model là 1 sp*@
+@model itemGioHang
+@{
+    ViewBag.Title = "SuaGioHang";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+@{ 
+    List<itemGioHang> lstGioHang = ViewBag.GioHang as List<itemGioHang>;
+}
+
+<div class="col-md-9">
+    <table class="table">
+        <tr>
+            <td>Mã SP</td>
+            <td>Tên SP</td>
+            <td>Hình ảnh</td>
+            <td>Số lượng</td>
+            <td>Đơn giá</td>
+            <td>Thành tiền</td>
+        </tr>
+        @foreach (var item in lstGioHang)
+        {
+            //Nếu mã SP của Model == với mã SP của item trong list
+
+            if (Model.MaSP == item.MaSP)
+            {
+                // Method CapNhatGioHang
+                //Lấy dữ liệu từ Form : vd MaSP và SoLuong
+                // đặt trước phương thức là [HttpPost]
+                using (Html.BeginForm("CapNhatGioHang", "GioHang"))
+                {
+                    <tr>
+                        <td>@item.MaSP @Html.Hidden("MaSP",item.MaSP)</td>
+                        <td>@item.TenSP</td>
+                        <td><img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" style="width:50px;height:50px" /></td>
+                        @*Chỉnh sửa trường số lượng*@
+                        <td>
+                            @Html.TextBox("SoLuong",item.SoLuong,new { @class="SoLuongThayDoi"})
+                            <p id="TB_SoLuongThayDoi"></p>
+                        </td>
+                        <td>@item.DonGia.ToString("#,##") đồng</td>
+                        <td>@item.ThanhTien.ToString("#,##") đồng</td>
+                        @*Thêm nút Submit*@
+                        <td><input type="submit" value="Cập nhật" id="btnCapNhatGH"/>
+                            @Html.ActionLink("Xóa", "XoaGioHang", new { @maSP = item.MaSP })</td>
+                    </tr>
+                }
+            }
+            else // ngược lại thì không load nút cập nhật
+            {
+                <tr>
+                    <td>@item.MaSP</td>
+                    <td>@item.TenSP</td>
+                    <td><img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" style="width:50px;height:50px" /></td>
+                    <td>@item.SoLuong</td>
+                    <td>@item.DonGia.ToString("#,##") đồng</td>
+                    <td>@item.ThanhTien.ToString("#,##") đồng</td>
+                    @*Truyền tham số MaSP --- Tạo nút sửa link qua trang SuaGioHang*@
+                    <td>@Html.ActionLink("Sửa", "SuaGioHang", new { @maSP = item.MaSP })
+                        @Html.ActionLink("Xóa", "XoaGioHang", new { @maSP = item.MaSP })</td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+
+<script>
+    $("#btnCapNhatGH").click(function () {
+        // kiểm tra số lượng không phải là số hoặc nhỏ hơn 0
+        var SoLuong = $(".SoLuongThayDoi").val();
+        if (isNaN(SoLuong) == true || SoLuong < 0) {
+            $("#TB_SoLuongThayDoi").text("Số lượng không hợp lệ");
+            return false;
+        }
+    });
+</script>
+
+
+

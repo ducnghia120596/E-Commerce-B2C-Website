@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "ThongKeTheoThoiGian";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+<link href="~/Content/Layouts/js/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/Layouts/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+
+
+<script>
+  $( function() {
+      $(".datepicker").datepicker({
+          dateFormat: "dd-mm-yy",
+          timeFormat: "hh:mm:ss"
+      });
+  } );
+</script>
+<br />
+<br />
+<h2 style="font-weight:bold">Thông kê theo thời gian</h2>
+<br /><br />
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    Từ
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBox("date", null, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    Đến
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBox("date2", null, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                </div>
+                <div class="col-md-4">
+                    <input type="submit" value="Lọc" class="btn btn-default" />
+                </div>
+            </div>
+                @*<div class="col-md-3">
+                    @Html.TextBox("date", null, new { @class = "form-control datepicker" })
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBox("date2", null, new { @class = "form-control datepicker" })
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Lọc" class="btn btn-default" /> <span> </span>*@
+            </div>
+        </div>
+}
+<hr />
+<h2>Lợi nhuận bán tin: <font color="red">@ViewBag.LoiNhuanBanTinDang</font></h2>
+<br />
+<h2>Số lượng tin đã bán: <font color="red">@ViewBag.TongSoTinDaBan</font></h2>
+<br />
+
+
+
+<h2>Tổng số lượng đơn đặt hàng: <font color="red">@ViewBag.TongDDH</font></h2>
+<br />

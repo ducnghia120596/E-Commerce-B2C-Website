@@ -1,0 +1,15 @@
+﻿@*Dùng ViewBag để trả về tổng tiền và tổng số lượng*@
+
+
+<div id="divGioHang" class="cart box_1">
+    <a href="@Url.Action("XemGioHang","GioHang")">
+        <div class="total">
+            @ViewBag.TongTien.ToString("#,##") VNĐ (<span>@ViewBag.TongSoLuong</span> sp)
+        </div>
+        <img src="~/Content/images/cart.png" alt="" />
+    </a>
+    <p><a href="@Url.Action("XemGioHang","GioHang")" class="simpleCart_empty">Giỏ hàng</a></p>
+</div>
+@Html.Raw(TempData["msg"])
+
+

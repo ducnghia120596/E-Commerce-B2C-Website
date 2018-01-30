@@ -1,0 +1,35 @@
+﻿@using WebSiteBanHang.Models;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<SanPham>
+@{
+    ViewBag.Title = "SanPham";
+    Layout = "~/Views/Layout/ProductLayout.cshtml";
+}
+
+<div class="col-md-9 product1">
+    <div class="bottom-product">
+        @foreach (var item in Model.OrderBy(n => n.DonGia))
+        {
+            <div class="col-md-4 bottom-cd simpleCart_shelfItem">
+                <div class="product-at " style="width:200px;height:150px" >
+                    <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})">
+                        <img class="img-responsive" src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="" >
+                        <div class="pro-grid">
+                            <span class="buy-in">Mua hàng</span>
+                        </div>
+                    </a>
+                </div>
+                <p class="tun">@item.TenSP</p>
+                @*Thẻ a nút thêm sản phẩm --- chèn Action vào*@
+                <a href="@Url.Action("ThemGioHang","GioHang",new { @MaSP = item.MaSP, @strURL = Request.Url.ToString()})" class="item_add"><p class="number item_price"><i> </i>@item.DonGia.Value.ToString("#,##") VNĐ</p></a>
+                @Ajax.ActionLink("Thêm giỏ hàng AJAX","ThemGioHangAjax","GioHang",new { @MaSP = item.MaSP, @strURL = Request.Url.ToString() }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "divGioHang", InsertionMode = InsertionMode.Replace })
+            </div>
+        }
+        <div class="clearfix"> </div>
+    </div>
+</div>
+<div class="dlink">
+    Trang @(Model.PageCount<Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("SanPham",new { @page = page ,@MaLoaiSP=ViewBag.MaLoaiSP,@MaNSX=ViewBag.MaNSX}))
+</div>
+

@@ -1,0 +1,43 @@
+﻿@using WebSiteBanHang.Models;
+@model List<loiNhuanMV>
+@{
+    ViewBag.Title = "DoanhThuMerchant";
+    Layout = "~/Views/Layout/MerchantLayout.cshtml";
+
+    IEnumerable<ChiTietDonDatHangMerchant> data = (IEnumerable<ChiTietDonDatHangMerchant>)ViewBag.Data;
+}
+<br />
+<br />
+<h2 style="font-weight:bold">Doanh thu bán được</h2>
+<br />
+<br />
+<div class="col-md-12 product1">
+    <br />
+    <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr class="not_mapped_style" style="text-align:center">
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Tổng tiền</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+            {
+            <tbody>
+                <tr>
+                    <td>@item.NguoiBan</td>
+                    <td>@item.TongSoLuong</td>
+                    <td>@item.TongTien.Value.ToString("#,##") VNĐ</td>
+                </tr>
+            </tbody>
+                        }
+        <thead>
+            <tr class="not_mapped_style" style="text-align:center">
+                <th>Tổng</th>
+                <th>@ViewBag.TongSL</th>
+                <th>@ViewBag.TongDoanhThu.ToString("#,##") VNĐ</th>
+            </tr>
+        </thead>
+    </table>
+</div>

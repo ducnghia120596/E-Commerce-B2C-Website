@@ -1,0 +1,90 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.SanPham>
+
+@{
+    //Bước 1:
+    int iDem = 0;    //Đếm số lượng sản phẩm trên trang
+    int iSLSanPhamTrenTrang = 6; // Số lượng sản phẩm trên 1 trang
+    int iTrang = 1; //Số trang
+
+}
+
+<div class="col-md-9 product1">
+    <div class="bottom-product">
+        @foreach (var item in Model.OrderBy(n => n.DonGia))
+        {
+
+            if (iDem % iSLSanPhamTrenTrang == 0 && iDem != 0)
+            {
+                iTrang++;
+            }
+            iDem++;
+            <div class="@Url.Content("col-md-4 bottom-cd simpleCart_shelfItem Trang"+iTrang.ToString())">
+                <div class="product-at " style="width:200px;height:150px">
+                    <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})">
+                        <img class="img-responsive" src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="" style="width:170px;height:140px">
+                        <div class="pro-grid">
+                            <span class="buy-in">Còn lại @item.SoLuongTon sp</span>
+                        </div>
+                    </a>
+                </div>
+                <p class="tun">@item.TenSP</p>
+                @*Thẻ a nút thêm sản phẩm --- chèn Action vào*@
+                @*<a href="@Url.Action("ThemGioHang","GioHang",new { @MaSP = item.MaSP, @strURL = Request.Url.ToString()})" class="item_add"><p class="number item_price"><i> </i>@item.DonGia.Value.ToString("#,##") VNĐ</p></a>
+                @Ajax.ActionLink("Thêm giỏ hàng AJAX", "ThemGioHangAjax", "GioHang", new { @MaSP = item.MaSP, @strURL = Request.Url.ToString() }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "divGioHang", InsertionMode = InsertionMode.Replace })*@
+
+                <a href="#" data-masp="@item.MaSP" class="item_add btnThemGioHang"><p class="number item_price"><i> </i>@item.DonGia.Value.ToString("#,##")</p></a>
+            </div>
+        }
+        <div class="clearfix"> </div>
+    </div>
+    <div class="Trang">
+        @for (int i = 1; i <= iTrang; i++)
+        {
+            <a class="linkTrang" data-sotrang="@Url.Content("Trang"+i) " href="#">@i</a>
+        }
+
+    </div> 
+</div>
+
+
+
+@*Bước 2: Cho tất cả các trang ẩn hết và chỉ cho item nào thuộc trang 1 hiển thỉ*@
+<style>
+    .simpleCart_shelfItem {
+        display: none;
+    }
+
+    .Trang1 {
+        display: block;
+    }
+</style>
+@*Bước 3: Xử lý khi click vào link trang nào thì show sản phẩm trang đó ra*@
+<script>
+    $('.linkTrang').click(function () {
+        //Cho tất cả các trang ẩn đi
+        $(".simpleCart_shelfItem").hide();
+        //Lấy tra số trang từ thẻ a
+        var soTrang = $(this).attr("data-sotrang");
+        //Gọi những class nào thuộc soTrang đó thì hiển thị
+
+        $("."+soTrang).show();
+
+    });
+    $(".btnThemGioHang").click(function () {
+        var maSP = $(this).attr("data-masp");
+
+        $.ajax({
+            type: 'GET',
+            data: {
+                MaSP: maSP,
+
+            },
+            url: '@Url.Action("ThemGioHangAjax","GioHang")',
+            success: function (ketqua) {
+
+                $('#divGioHang').html(ketqua);
+            }
+        });
+    })
+
+</script>

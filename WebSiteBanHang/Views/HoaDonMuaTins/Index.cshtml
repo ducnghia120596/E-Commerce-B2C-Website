@@ -1,0 +1,76 @@
+﻿@model IEnumerable<WebSiteBanHang.Models.HoaDonMuaTin>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+<br />
+<br />
+<center><h2 style="font-weight:bold">Hóa đơn mua tin</h2></center>
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Id)*@
+            Mã HD
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.NgayMua)*@
+            Ngày mua
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.SoLuong)*@
+            Số lượng
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.DonGia)*@
+            Đơn giá
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ThanhTien)*@
+            Thành tiền
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ThanhVien.TaiKhoan)*@
+            Tên tài khoản
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NgayMua)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoLuong)
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.DonGia)*@
+            @item.DonGia.Value.ToString("#,##") VNĐ
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.ThanhTien)*@
+            @item.ThanhTien.Value.ToString("#,##") VNĐ
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThanhVien.TaiKhoan)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+            @Html.ActionLink("Xem chi tiết", "Details", new { id=item.Id }) |
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+        </td>
+    </tr>
+}
+
+</table>
+<br />
+<p>
+    @Html.ActionLink("Tạo mới", "Create", null, new { @type = "button", @class = "btn btn-info" })
+</p>

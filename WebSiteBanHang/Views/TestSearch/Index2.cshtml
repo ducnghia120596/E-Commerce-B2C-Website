@@ -1,0 +1,58 @@
+﻿@model PagedList.IPagedList<WebSiteBanHang.Models.SanPham>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index2";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<h2>Index2</h2>
+<br />
+@using (Html.BeginForm("Index2", "TestSearch", FormMethod.Get))
+{
+    <p>
+        Tìm theo tên: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" class="btn btn-default btn-primary" />
+    </p>
+        @Html.ActionLink("Clear", "Index2", new { searchString = "" }, new { @class = "btn btn-default" })
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mã SP</th>
+            <th>Tên SP</th>
+            <th>Ngày đăng</th>
+            <th>Hình ảnh</th>
+            <th>Người bán</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaSP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenSP)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayCapNhap)
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="" style="width:70px;height:70px">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ThanhVien.TaiKhoan)
+                </td>
+            </tr>
+        }
+        
+    </tbody>
+</table>
+
+<br />
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index2",
+    new { page, currentFilter = ViewBag.CurrentFilter }))

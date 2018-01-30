@@ -1,0 +1,43 @@
+﻿@model WebSiteBanHang.Models.Quyen
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+<br />
+<br />
+<h2>Xóa quyền</h2>
+<br />
+<br />
+<h3>Bạn có chắn chắc muốn xóa quyền <font color="red">@Model.TenQuyen</font></h3>
+<br />
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MaQuyen)
+        </dt>
+        <dt>
+            @Html.DisplayNameFor(model => model.TenQuyen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaQuyen)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.TenQuyen)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Xóa" class="btn btn-danger" /> <br />
+            <br />
+            <br />
+            @Html.ActionLink("Danh sách quyền", "Index")
+        </div>
+    }
+</div>

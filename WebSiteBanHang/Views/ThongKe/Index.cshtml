@@ -1,0 +1,77 @@
+﻿@using WebSiteBanHang.Models;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/AdminLayout.cshtml";
+}
+<link href="~/Content/Layouts/js/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet" />
+<script src="~/Content/Layouts/js/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+
+
+<script>
+  $( function() {
+      $(".datepicker").datepicker({
+          dateFormat: "dd-mm-yy",
+          timeFormat: "hh:mm:ss"
+      });
+  } );
+</script>
+<br />
+<center><h2 style="font-weight:bold">Thống kê tổng</h2></center>
+<br />
+<div id="divResult">
+    <h2>Lợi nhuận bán tin: <font color="red">@ViewBag.LoiNhuanBanTinDang.ToString("#,##") VNĐ</font></h2>
+    <br />
+    <h2>Số lượng tin đã bán: <font color="red">@ViewBag.TongSoTinDaBan (tin)</font></h2>
+    <br />
+    <h2>Tổng số lượng đơn đặt hàng: <font color="red">@ViewBag.TongDDH (đơn)</font></h2>
+    <br />
+    <h2>Tổng số lượng thành viên: <font color="red">@ViewBag.TongThanhVien (thành viên)</font></h2>
+    <br />
+</div>
+
+<hr />
+@*<p>
+    @Html.ActionLink("Thống kê theo thời gian", "ThongKeTheoThoiGian","ThongKe", null, new { @type = "button", @class = "btn btn-info" })
+</p>*@
+
+<br />
+@using (Ajax.BeginForm("ThongKeTheoThoiGian","ThongKe",new AjaxOptions { HttpMethod="Post",UpdateTargetId="divResult",InsertionMode=InsertionMode.Replace}))
+{
+    <div class="container">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    Từ
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBox("date", null, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    Đến
+                </div>
+                <div class="col-md-4">
+                    @Html.TextBox("date2", null, new { @class = "form-control datepicker" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                </div>
+                <div class="col-md-4">
+                    <input type="submit" value="Lọc" class="btn btn-default" />
+                </div>
+            </div>
+            @*<div class="col-md-3">
+                    @Html.TextBox("date", null, new { @class = "form-control datepicker" })
+                </div>
+                <div class="col-md-3">
+                    @Html.TextBox("date2", null, new { @class = "form-control datepicker" })
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="Lọc" class="btn btn-default" /> <span> </span>*@
+        </div>
+    </div>
+}
+
